@@ -1,0 +1,16 @@
+{
+  "domainNamespace": "Paris.Api",
+  "applicationNamespace": "Paris.Api",
+  "infrastructureNamespace": "Paris.Api",
+  "apiNamespace": "Paris.Api",
+  "domainDirectory": "C:\\Projects\\Paris\\src\\Paris.Api",
+  "applicationDirectory": "C:\\Projects\\Paris\\src\\Paris.Api",
+  "infrastructureDirectory": "C:\\Projects\\Paris\\src\\Paris.Api",
+  "apiDirectory": "C:\\Projects\\Paris\\src\\Paris.Api",
+  "path": "C:\\Projects\\Paris",
+  "dbContext": "ParisDbContext",
+  "sourceFolder": "src",
+  "resources": [
+    "ToDo"
+  ]
+}
