@@ -1,9 +1,8 @@
 import { html, render } from "lit-html";
-import { BehaviorSubject, map, of, Subject, take, takeUntil, tap } from "rxjs";
+import { BehaviorSubject, combineLatest, map, Subject, takeUntil, tap } from "rxjs";
 import { StyleInfo, styleMap } from 'lit-html/directives/style-map.js';
-import { toDoService, ToDoService } from "../@api";
-
 import "./landing.component.scss";
+import { toDoContextService } from "../@core/services/to-do-context.service";
 
 //https://www.robinwieruch.de/webpack-sass
 
@@ -19,17 +18,12 @@ export class LandingComponent extends HTMLElement {
     }> = new BehaviorSubject({ });
 
     constructor(
-        private readonly _toDoService = toDoService
+        private readonly _toDoContextService = toDoContextService
     ) {
         super();
-
     }
 
-    private readonly _vm$ = this._attributes$;
-
-    public value$: BehaviorSubject<boolean> = new BehaviorSubject(true);
-
-    public message: string;
+    private readonly _vm$ = combineLatest([this._attributes$, this._toDoContextService.toDos$]);
     
     static get observedAttributes() {
         return [
