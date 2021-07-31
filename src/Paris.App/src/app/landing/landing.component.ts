@@ -39,7 +39,7 @@ export class LandingComponent extends HTMLElement {
 
     public get template(): TemplateResult {
         return html`
-            <h1 style=${styleMap(styles)}>Works?</h1>            
+            <h1 class="hello" style=${styleMap(styles)}>Works?</h1>            
         `;
     }
 
