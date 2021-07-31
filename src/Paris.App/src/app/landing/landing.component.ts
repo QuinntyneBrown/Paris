@@ -3,15 +3,12 @@ import { BehaviorSubject, map, of, Subject, tap } from "rxjs";
 import { StyleInfo, styleMap } from 'lit-html/directives/style-map.js';
 import { toDoService } from "../@api";
 
+import "./landing.component.scss";
+
+//https://www.robinwieruch.de/webpack-sass
+
 let styles: StyleInfo = {
-    color: "black",
-    backgroundColor:"red",
-    lineHeight: "4em",
-    display: "block",
-    fontFamily:"sans-serif",
-    boxSizing: "border-box",
-    margin: "0",
-    padding:"0"
+    fontFamily: "var(--font-family)",
   };
 
 export class LandingComponent extends HTMLElement {
@@ -44,7 +41,7 @@ export class LandingComponent extends HTMLElement {
         .pipe(
             map(x => {
                 return html`
-                <h1 class="hello" style=${styleMap(styles)}>Works?</h1>            
+                <h1 style=${styleMap(styles)}>Works?</h1>            
                 `;
             }),
             tap(
