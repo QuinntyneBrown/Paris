@@ -41,7 +41,8 @@ export class LandingComponent extends HTMLElement {
         .pipe(
             map(x => {
                 return html`
-                <h1 style=${styleMap(styles)}>Works?</h1>            
+                <h1 style=${styleMap(styles)}>Works?</h1>  
+                <button part="button">Click</button>          
                 `;
             }),
             tap(

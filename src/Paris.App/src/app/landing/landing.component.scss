@@ -1,3 +1,10 @@
 ce-landing { 
-    --font-family:Arial;  
+    --font-family:Arial; 
+    color:blue;
+
+    &::part(button) {
+        color:red;
+        background-color: #fff;
+    }
 }
+
