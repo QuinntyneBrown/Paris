@@ -29,11 +29,11 @@
         "src/app/@shared/*"
       ],
       "@api": [
-        "src/app/@api"
+        "./src/app/@api"
       ],
       "@api/*": [
-        "src/app/@api/*"
-      ]
+        "./src/app/@api/*"
+      ]    
     },
     "plugins": [
       {
