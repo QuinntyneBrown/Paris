@@ -34,6 +34,16 @@
       "@api/*": [
         "src/app/@api/*"
       ]
-    }
+    },
+    "plugins": [
+      {
+        "name": "typescript-lit-html-plugin",
+        "tags": [
+          "html",
+          "template"
+        ],
+        "format": { "enabled": false }
+      }
+    ]
   }
 }

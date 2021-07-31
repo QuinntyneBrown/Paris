@@ -1,19 +1,31 @@
 import { TemplateResult, html, render } from "lit-html";
 import { BehaviorSubject } from "rxjs";
-import { styleMap } from 'lit-html/directives/style-map.js';
+import { StyleInfo, styleMap } from 'lit-html/directives/style-map.js';
+import { toDoService } from "../@api";
+
+//import {combineReducers} from 'redux';
+//import { baseUrl } from "@api/services/to-do.service";
+
+let styles: StyleInfo = {
+    color: "black",
+    backgroundColor:"red",
+    lineHeight: "4em",
+    display: "block",
+    fontFamily:"sans-serif",
+    boxSizing: "border-box",
+    margin: "0",
+    padding:"0"
+  };
 
 export class LandingComponent extends HTMLElement {
-    constructor() {
+    constructor(
+        private readonly _toDoService = toDoService
+    ) {
         super();
+
     }
 
-    styles = {
-        color: "red",
-        backgroundColor: "blue",
-        lineHeight: "4em",
-        display: "block",
-        fontFamily:"sans-serif"
-      };
+    
 
     public value$: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
@@ -27,11 +39,12 @@ export class LandingComponent extends HTMLElement {
 
     public get template(): TemplateResult {
         return html`
-            <h1 style=${styleMap(this.styles)}>Works?</h1>
+            <h1 style=${styleMap(styles)}>Works?</h1>            
         `;
     }
 
     connectedCallback() {    
+
         if (!this.shadowRoot) this.attachShadow({ mode: 'open' });
   
         render(this.template, this.shadowRoot)    
