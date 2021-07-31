@@ -1,7 +1,7 @@
-import { TemplateResult, html, render } from "lit-html";
-import { BehaviorSubject, map, of, Subject, tap } from "rxjs";
+import { html, render } from "lit-html";
+import { BehaviorSubject, map, of, Subject, take, takeUntil, tap } from "rxjs";
 import { StyleInfo, styleMap } from 'lit-html/directives/style-map.js';
-import { toDoService } from "../@api";
+import { toDoService, ToDoService } from "../@api";
 
 import "./landing.component.scss";
 
@@ -14,6 +14,10 @@ let styles: StyleInfo = {
 export class LandingComponent extends HTMLElement {
     private readonly _destroyed$: Subject<void> = new Subject();
 
+    private readonly _attributes$: BehaviorSubject<{
+        message?:string
+    }> = new BehaviorSubject({ });
+
     constructor(
         private readonly _toDoService = toDoService
     ) {
@@ -21,7 +25,7 @@ export class LandingComponent extends HTMLElement {
 
     }
 
-    private readonly _vm$ = of(true);
+    private readonly _vm$ = this._attributes$;
 
     public value$: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
@@ -39,12 +43,11 @@ export class LandingComponent extends HTMLElement {
   
         this._vm$
         .pipe(
-            map(x => {
-                return html`
-                <h1 style=${styleMap(styles)}>Works?</h1>  
-                <button part="button">Click</button>          
-                `;
-            }),
+            takeUntil(this._destroyed$),
+            map(x => html`
+            <h1 style=${styleMap(styles)}>Works?</h1>  
+            <button part="button">Click</button>          
+            `),
             tap(
                 template => render(template, this.shadowRoot) 
             )
@@ -52,14 +55,12 @@ export class LandingComponent extends HTMLElement {
     }
     
     attributeChangedCallback (name:any, oldValue:any, newValue:any) {
-        switch (name) {
-            case "message":
-                this.message = newValue;                
-                break;
-        }
+        let props = {};
+        props[name] = newValue;
+        this._attributes$.next({ ...props, ...this._attributes$.value })
     }
 
-    disconnectCallback() {
+    disconnectedCallback() {
         this._destroyed$.next();
         this._destroyed$.complete();
     }
