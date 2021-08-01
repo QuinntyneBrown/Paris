@@ -1,50 +1,49 @@
 import { html, render } from "lit-html";
 import { BehaviorSubject, combineLatest, map, Subject, takeUntil, tap } from "rxjs";
-import { StyleInfo, styleMap } from 'lit-html/directives/style-map.js';
-import "./landing.component.scss";
-import { toDoContextService } from "../@core/services/to-do-context.service";
+import { StyleInfo } from 'lit-html/directives/style-map.js';
 
-//https://www.robinwieruch.de/webpack-sass
+import "./to-do.component.scss";
 
 let styles: StyleInfo = {
-    fontFamily: "var(--font-family)",
-  };
 
-export class LandingComponent extends HTMLElement {
+};
+
+class ToDoComponent extends HTMLElement {
     private readonly _destroyed$: Subject<void> = new Subject();
 
     private readonly _attributes$: BehaviorSubject<{
-        message?:string
+
     }> = new BehaviorSubject({ });
 
     constructor(
-        private readonly _toDoContextService = toDoContextService
+
     ) {
         super();
     }
 
-    private readonly _vm$ = combineLatest([this._attributes$, this._toDoContextService.toDos$]);
+    private readonly _vm$ = combineLatest([this._attributes$]);
     
     static get observedAttributes() {
         return [
-            "message"
+
         ];
     }
 
     connectedCallback() {    
-
         if (!this.shadowRoot) this.attachShadow({ mode: 'open' });
   
         this._vm$
         .pipe(
             takeUntil(this._destroyed$),
-            map(x => html`
-            <h1 style=${styleMap(styles)}>Works???</h1>  
-            <button part="button">Click</button>          
+            map(_ => html`
+                <form is="lit-form-group">
+                    <input type="text" is="lit-input" formControlName="description">
+                </form>
+                <button>Save</button>      
             `),
             tap(
                 template => render(template, this.shadowRoot) 
-            )
+            ),
         ).subscribe();   
     }
     
@@ -60,4 +59,4 @@ export class LandingComponent extends HTMLElement {
     }
 }
 
-window.customElements.define(`ce-landing`,LandingComponent);
+window.customElements.define('lit-to-do', ToDoComponent);
